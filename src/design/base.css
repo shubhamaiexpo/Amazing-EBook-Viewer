@@ -1,0 +1,72 @@
+/* Reset, page frame and the text styles every component shares. */
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+html,
+body,
+#app {
+  height: 100%;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #b8895a;
+  color: var(--ink);
+  font: var(--weight-body) var(--text-md) / 1.4 var(--font-ui);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 3px;
+}
+
+/* ---------- text styles ---------- */
+.text-display {
+  font: var(--weight-heavy) var(--text-display) / 1 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+.text-title {
+  font: var(--weight-heavy) var(--text-2xl) / 1.05 var(--font-ui);
+  letter-spacing: -0.01em;
+}
+.text-heading {
+  font: var(--weight-heavy) var(--text-xl) / 1.1 var(--font-ui);
+}
+.text-label {
+  font: var(--weight-label) var(--text-sm) / 1.15 var(--font-ui);
+}
+.text-body {
+  font: var(--weight-body) var(--text-md) / 1.45 var(--font-ui);
+  color: var(--ink-soft);
+}
+.text-strong {
+  font: 600 17px / 1.25 var(--font-ui);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

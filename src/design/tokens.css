@@ -1,0 +1,135 @@
+/*
+  Paper Book design tokens.
+
+  Two layers:
+  1. Primitives (--pb-*): raw values. Change these to retune the whole app.
+  2. Semantic tokens (--ink, --accent, --surface, ...): what components use.
+     Colour themes (src/design/themes.ts) only ever override the semantic colour tokens.
+
+  Rule: components never use hex values or pixel radii directly. If a value is missing, add a token here.
+*/
+
+/* Theme colours are registered so they can glide from one theme to the next. */
+@property --ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #2f2f2f;
+}
+@property --ink-soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #6a6a6a;
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffc928;
+}
+@property --accent-soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffe48a;
+}
+@property --action {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #19acd6;
+}
+
+:root {
+  /* ---------- primitives ---------- */
+  --pb-white: #ffffff;
+  --pb-grey-50: #f5f5f5;
+  --pb-grey-100: #f2f2f2;
+  --pb-grey-150: #ececec;
+  --pb-grey-200: #e9e9e9;
+  --pb-grey-300: #d6d6d6;
+  --pb-paper: #f7f2e6;
+  --pb-red: #e0453a;
+  --pb-red-soft: #ffe1dc;
+  --pb-sky-soft: #eaf7fc;
+
+  /* ---------- semantic colour (themes override the first five) ---------- */
+  --ink: #2f2f2f; /* text, dark controls */
+  --ink-soft: #6a6a6a; /* secondary text */
+  --accent: #ffc928; /* highlight: page label, primary call to action, cards */
+  --accent-soft: #ffe48a;
+  --action: #19acd6; /* page arrows, selected tabs, switches */
+  --on-ink: var(--pb-white);
+  --surface: var(--pb-white); /* panels, dock, tooltips on light */
+  --surface-muted: var(--pb-grey-100); /* pills, rows, tiles */
+  --surface-hover: var(--pb-grey-200);
+  --line: var(--pb-grey-150);
+  --danger: var(--pb-red);
+  --danger-soft: var(--pb-red-soft);
+  --info-soft: var(--pb-sky-soft);
+  --paper: var(--pb-paper);
+
+  /* ---------- type ---------- */
+  --font-ui: "Outfit", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --weight-body: 500;
+  --weight-label: 700;
+  --weight-heavy: 800;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 28px;
+  --text-display: 56px;
+
+  /* ---------- space (4px grid) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+
+  /* ---------- radius: soft, squircle-like corners everywhere ---------- */
+  --radius-sm: 12px; /* tooltips, small tags */
+  --radius-md: 15px; /* pills, close buttons */
+  --radius-lg: 18px; /* buttons, toasts */
+  --radius-xl: 24px; /* tiles, dock */
+  --radius-2xl: 32px; /* panels */
+  --radius-round: 999px;
+
+  /* ---------- size ---------- */
+  --control-sm: 44px; /* minimum touch target */
+  --control-md: 48px;
+  --control-lg: 52px;
+  --control-xl: 64px;
+  --icon-sm: 18px;
+  --icon-md: 22px;
+  --icon-lg: 28px;
+
+  /* ---------- elevation ---------- */
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.14);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.16);
+  --shadow-lg: 0 24px 60px rgba(40, 25, 10, 0.35);
+  --lip: inset 0 -4px 0 rgba(0, 0, 0, 0.12); /* the chunky bottom edge on pressable things */
+  --lip-dark: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+
+  /* ---------- layers ---------- */
+  --z-scene: 0;
+  --z-book: 1;
+  --z-chrome: 3;
+  --z-panel: 5;
+  --z-tooltip: 6;
+  --z-toast: 8;
+  --z-overlay: 9;
+  --z-effects: 20;
+
+  /* ---------- motion ---------- */
+  --ease-spring: cubic-bezier(0.3, 0.7, 0.4, 1.4); /* small overshoot: presses, toggles */
+  --ease-out: cubic-bezier(0.3, 0.7, 0.2, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur-base: 250ms;
+  --dur-slow: 620ms;
+  --dur-theme: 700ms;
+
+  color-scheme: light;
+}

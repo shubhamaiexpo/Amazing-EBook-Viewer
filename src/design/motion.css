@@ -1,0 +1,169 @@
+/*
+  Motion vocabulary. Every animation in the app comes from this list, so the feel stays consistent.
+  All of it switches off for people who ask their system to reduce motion.
+*/
+
+/* Theme colours glide while this class is on <html> (set by themes.ts). */
+:root.theming {
+  transition:
+    --ink var(--dur-theme) ease,
+    --ink-soft var(--dur-theme) ease,
+    --accent var(--dur-theme) ease,
+    --accent-soft var(--dur-theme) ease,
+    --action var(--dur-theme) ease;
+}
+
+/* Release: a jelly squash-and-stretch that settles (actions/feel.ts adds the class). */
+@keyframes pb-jelly {
+  0% {
+    scale: 1;
+  }
+  25% {
+    scale: 1.16 0.84;
+  }
+  45% {
+    scale: 0.9 1.1;
+  }
+  62% {
+    scale: 1.05 0.95;
+  }
+  78% {
+    scale: 0.98 1.02;
+  }
+  100% {
+    scale: 1;
+  }
+}
+.pb-boing {
+  animation: pb-jelly var(--dur-slow) var(--ease-out);
+}
+
+/* Toggled on: the same jelly plus a ring of accent colour. */
+@keyframes pb-pop {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+  }
+  100% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+.pb-popped {
+  animation:
+    pb-jelly var(--dur-slow) var(--ease-out),
+    pb-pop 700ms ease-out;
+}
+
+/* Water drop where you press (actions/ripple.ts). */
+.pb-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 2px solid currentColor;
+  opacity: 0.5;
+  transform: translate(-50%, -50%) scale(0);
+  animation: pb-ripple 900ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.pb-ripple.fill {
+  border: 0;
+  background: currentColor;
+  opacity: 0.14;
+}
+@keyframes pb-ripple {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Icons act out what their button does (Icon.svelte takes an `act` prop). */
+@keyframes pb-drop {
+  0% {
+    transform: translateY(-7px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+  75% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes pb-wiggle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-14deg) scale(1.08);
+  }
+  60% {
+    transform: rotate(10deg) scale(1.08);
+  }
+}
+@keyframes pb-rise {
+  0% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-3px) scale(1.06);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes pb-grow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+@keyframes pb-shimmy {
+  0%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: translateX(3px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+}
+:hover > .pb-act-drop {
+  animation: pb-drop 0.5s ease-out;
+}
+:hover > .pb-act-wiggle {
+  animation: pb-wiggle 0.55s ease-in-out;
+}
+:hover > .pb-act-rise {
+  animation: pb-rise 0.6s ease-in-out;
+}
+:hover > .pb-act-grow {
+  animation: pb-grow 0.5s ease-in-out;
+}
+:hover > .pb-act-shimmy {
+  animation: pb-shimmy 0.45s ease-in-out;
+}
+.pb-act-spin {
+  transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.4, 1.6);
+}
+:hover > .pb-act-spin {
+  transform: rotate(90deg) scale(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .pb-ripple {
+    display: none;
+  }
+}

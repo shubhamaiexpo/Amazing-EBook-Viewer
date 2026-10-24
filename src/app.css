@@ -1,0 +1,4 @@
+/* Global styles: the design system's tokens, base and motion. Component styles live in each .svelte file. */
+@import "./design/tokens.css";
+@import "./design/base.css";
+@import "./design/motion.css";
