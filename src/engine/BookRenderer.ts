@@ -22,6 +22,8 @@ export interface BookLook {
   /** -1 left, 0 above, 1 right */
   light: number;
   trueColour: boolean;
+  /** Shadow strength the person chose: 0 = none, 1 = as the scene sets it, 2 = twice as dark. */
+  shadowStrength: number;
 }
 
 interface RibbonMesh {
@@ -58,6 +60,7 @@ export class BookRenderer {
   private tiltTarget = 0;
   private portrait = false;
   private lightSide = 0;
+  private shadowK = 1;
   private readonly tint = new THREE.Color(1, 1, 1);
   private tintTo: THREE.Color | null = null;
   private tintSet = false;
@@ -172,7 +175,9 @@ export class BookRenderer {
   setLook(look: BookLook): void {
     this.lightSide = look.light;
     this.lightDir.set(look.light * 0.6, 0.45, 0.75).normalize();
-    this.shadow.material.opacity = look.shadow;
+    this.shadowK = look.shadowStrength;
+    this.shadow.material.opacity = Math.min(1, look.shadow * look.shadowStrength);
+    this.layoutRibbons();
     this.shadow.position.y = -0.06;
     this.tintTo = look.trueColour ? new THREE.Color(1, 1, 1) : new THREE.Color(...look.tint);
     if (!this.tintSet || reduceMotion) {
@@ -218,8 +223,10 @@ export class BookRenderer {
       m.material.map = texFor(i, false);
       m.material.needsUpdate = true;
       m.scale.set(this.W, this.H, 1);
-      m.position.set(-this.W / 2 - (i + 1) * 0.012, (i % 2 ? 0.004 : -0.003) * (i + 1), m.position.z);
-      m.rotation.z = (i + 1) * 0.006;
+      // each sheet tilts about its spine end, so it fans out at the outer edge and stays tucked in at the spine
+      const a = (i + 1) * 0.006;
+      m.rotation.z = a;
+      m.position.set(-this.W / 2 - (i + 1) * 0.012, (-this.W / 2) * Math.sin(a), m.position.z);
     });
     this.stackR.forEach((m, i) => {
       m.visible = i < nR;
@@ -227,8 +234,9 @@ export class BookRenderer {
       m.material.map = texFor(i, true);
       m.material.needsUpdate = true;
       m.scale.set(this.W, this.H, 1);
-      m.position.set(this.W / 2 + (i + 1) * 0.006, -(i + 1) * 0.0035, m.position.z);
-      m.rotation.z = -(i + 1) * 0.003;
+      const a = -(i + 1) * 0.003;
+      m.rotation.z = a;
+      m.position.set(this.W / 2 + (i + 1) * 0.006, (this.W / 2) * Math.sin(a), m.position.z);
     });
   }
 
@@ -342,7 +350,7 @@ export class BookRenderer {
       r.shadow.scale.setScalar(1 + r.lift * 0.08);
       r.mesh.material.opacity = f;
       r.mesh.visible = r.shadow.visible = f > 0.01;
-      r.shadow.material.opacity = (0.5 - r.lift * 0.15) * f * f;
+      r.shadow.material.opacity = Math.min(1, (0.5 - r.lift * 0.15) * f * f * this.shadowK);
     }
   }
 
@@ -369,7 +377,7 @@ export class BookRenderer {
       lift = Math.sin(Math.PI * Math.max(0, Math.min(1, t)));
     if (lift > 0.02) {
       cs.visible = true;
-      cs.material.opacity = 0.16 * lift;
+      cs.material.opacity = Math.min(0.6, 0.16 * lift * this.shadowK);
       const span = Math.max(0.02 * this.W, Math.abs(edgeX));
       cs.scale.set(span, this.H, 1);
       cs.position.set((this.turnDir * Math.sign(edgeX || 1) * span) / 2, 0, 0.0005);

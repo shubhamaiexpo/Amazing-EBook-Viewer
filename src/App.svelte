@@ -51,6 +51,7 @@
       shadow: sc.shadow,
       light: settings.light ?? sc.light,
       trueColour: settings.trueColour,
+      shadowStrength: settings.shadow,
     });
   });
 

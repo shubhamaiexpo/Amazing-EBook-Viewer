@@ -69,10 +69,10 @@
 </button>
 
 <style>
-  /* Lies on the desk in the bottom-left corner, big enough to read, with its strap running off the screen. */
+  /* Lies on the desk in the bottom-right corner, big enough to read, with its strap running off the screen. */
   .watch {
     position: fixed;
-    left: max(-14px, env(safe-area-inset-left, 0px));
+    right: max(-14px, env(safe-area-inset-right, 0px));
     bottom: -64px;
     z-index: var(--z-chrome);
     width: 150px;
@@ -81,7 +81,7 @@
     border: 0;
     background: none;
     cursor: pointer;
-    transform: rotate(16deg);
+    transform: rotate(-16deg);
     transform-origin: 50% 80%;
     transition:
       opacity 0.6s,
@@ -89,7 +89,7 @@
       transform 0.35s var(--ease-spring);
   }
   .watch:hover {
-    transform: rotate(10deg) translateY(-8px);
+    transform: rotate(-10deg) translateY(-8px);
   }
   .watch.idle {
     opacity: 0.85;

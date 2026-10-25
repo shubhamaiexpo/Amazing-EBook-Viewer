@@ -14,6 +14,8 @@ export interface Settings {
   /** Keep the scene's tint off the pages. */
   trueColour: boolean;
   sound: boolean;
+  /** Shadow strength: 0 = none, 1 = as the scene sets it, 2 = darkest. */
+  shadow: number;
   fit: WallFit;
   blur: number;
   dim: number;
@@ -27,6 +29,7 @@ export const DEFAULT_SETTINGS: Settings = {
   light: null,
   trueColour: false,
   sound: false,
+  shadow: 1,
   fit: "cover",
   blur: 0,
   dim: 10,

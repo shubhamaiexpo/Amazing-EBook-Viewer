@@ -69,6 +69,10 @@
     </div>
   </div>
 
+  <div class="group">
+    <Slider label="Shadows" min={0} max={2} step={0.1} bind:value={settings.shadow} ends={["Lighter", "Darker"]} />
+  </div>
+
   <Switch title="True colour" description="Keep the scene's tint off the pages." bind:checked={settings.trueColour} />
   <Switch
     title="Page sound"

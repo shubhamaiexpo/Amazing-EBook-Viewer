@@ -1,7 +1,7 @@
 <!--
   @component
   A floating sheet that pours in from where it was opened. `placement` decides where it docks:
-  left (bookmarks), right (scene), watch (bottom left, beside the watch).
+  left (bookmarks), right (scene), watch (bottom right, beside the watch).
   <Panel title="Scene" subtitle="..." placement="right" onclose={closePanels}>...</Panel>
 -->
 <script lang="ts">
@@ -45,6 +45,10 @@
     background: var(--surface);
     box-shadow: var(--shadow-lg);
   }
+  /* when a panel is taller than the window it scrolls; its rows keep their size instead of squashing */
+  .panel > :global(*) {
+    flex-shrink: 0;
+  }
   header {
     display: flex;
     align-items: flex-start;
@@ -72,15 +76,15 @@
     bottom: 16px;
     width: min(400px, calc(100% - 32px));
   }
-  /* beside the watch, which lies in the bottom-left corner */
+  /* beside the watch, which lies in the bottom-right corner */
   .watch {
-    left: 176px;
+    right: 176px;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     width: min(320px, calc(100% - 32px));
   }
   @media (max-width: 640px) {
     .watch {
-      left: 16px;
+      right: 16px;
       bottom: 160px;
     }
   }
