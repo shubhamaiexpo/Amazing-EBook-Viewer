@@ -37,7 +37,8 @@ export async function openPdf(bytes: Uint8Array, fileName: string): Promise<PdfB
   try {
     const meta = await doc.getMetadata();
     const t = (meta.info as { Title?: string } | undefined)?.Title;
-    if (t && t.trim()) title = t.trim();
+    // many tools write placeholder titles; the file name is more useful then
+    if (t && t.trim() && !/^(untitled|unknown|microsoft word - .*)$/i.test(t.trim())) title = t.trim();
   } catch {
     /* untitled is fine */
   }

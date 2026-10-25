@@ -6,7 +6,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { RibbonSpec } from "$engine/BookRenderer";
-  import { ui, wake } from "$stores/ui.svelte";
+  import { toast, ui, wake } from "$stores/ui.svelte";
   import { reader } from "./reader.svelte";
 
   let { onready }: { onready?: () => void } = $props();
@@ -27,6 +27,14 @@
     raf = requestAnimationFrame(loop);
 
     const resize = () => book.resize();
+    // the graphics driver can reset the WebGL context (sleep, driver update, low memory); redraw when it's back
+    const lost = (e: Event) => {
+      e.preventDefault();
+      toast("The book view was reset by the graphics card. Redrawing…");
+    };
+    const restored = () => reader.redraw();
+    canvas.addEventListener("webglcontextlost", lost);
+    canvas.addEventListener("webglcontextrestored", restored);
     const down = (e: PointerEvent) => {
       if (ui.zoom || !reader.hasBook || book.turning) return;
       const hit = book.pick(e.clientX, e.clientY);

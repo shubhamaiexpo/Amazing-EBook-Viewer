@@ -117,6 +117,13 @@ class Reader {
     this.pages.trim(this.spread);
   }
 
+  /** Draw the open spread again from scratch (after the graphics card was reset). */
+  redraw(): void {
+    if (!this.hasBook || !this.pages || !this.doc) return;
+    this.pages.reset(this.doc);
+    void this.show(this.spread);
+  }
+
   /** Render a page at any height, outside the cache (the magnifier asks for sharp copies). */
   renderPage(index: number, height: number): Promise<HTMLCanvasElement> | null {
     return this.doc && index >= 0 && index < this.pageCount ? this.doc.render(index, height) : null;
