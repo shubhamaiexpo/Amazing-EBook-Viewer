@@ -1,7 +1,7 @@
 <!--
   @component
   A floating sheet that pours in from where it was opened. `placement` decides where it docks:
-  left (bookmarks), right (scene), watch (bottom right, beside the watch).
+  left (bookmarks), right (scene), watch (bottom left, beside the watch).
   <Panel title="Scene" subtitle="..." placement="right" onclose={closePanels}>...</Panel>
 -->
 <script lang="ts">
@@ -72,15 +72,16 @@
     bottom: 16px;
     width: min(400px, calc(100% - 32px));
   }
+  /* beside the watch, which lies in the bottom-left corner */
   .watch {
-    right: 136px;
+    left: 176px;
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     width: min(320px, calc(100% - 32px));
   }
   @media (max-width: 640px) {
     .watch {
-      right: 16px;
-      bottom: 150px;
+      left: 16px;
+      bottom: 160px;
     }
   }
 </style>
